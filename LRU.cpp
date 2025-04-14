@@ -22,7 +22,7 @@ void insertRecord(const Record& record)
 {
    int hashKey = (record.ts>>9 ) & RECORD_SIZE;
    hashList[hashKey].push_back(record);
-   printf("Insert userId=%d , ts=%d , hashKey=%d\n", record.userId, record.ts, hashKey);
+   printf("Insert userId=%d , ts=%d , hashKey=%ld\n", record.userId, record.ts, hashKey);
 }
 
 /* Delete the records older than ttl */
@@ -44,7 +44,7 @@ bool deleteOldRecords(int ttl, time_t crntTs)
        {
           if( (crntTs - it->ts) >= ttl)
           {
-             printf("Delete the record- userId=%d,ts=%d \n", it->userId, it->ts);
+             printf("Delete the record- userId=%d,ts=%ld \n", it->userId, it->ts);
              it->userId = -1;
              bucket.erase(it);
           }
@@ -69,7 +69,7 @@ int main()
     printf("Enter the ttl\n");
     scanf("%d", &ttl);
 
-    time_t crntTs = time(nullptr);·
+    time_t crntTs = time(nullptr);
     /*Insert the record 100 times after every 200ms */
     for(i=0; i< 100; i++)
     {
@@ -80,4 +80,5 @@ int main()
        userId++;
     }
     deleteOldRecords(ttl, crntTs);
+    return 0;
 }
